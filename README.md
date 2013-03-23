@@ -8,51 +8,26 @@ I can run my tests on windows.
 Here's an example of using it:
 ```
 #include "mtest.h"
-#include <string.h>
 
-DEFINE_TEST(string_len)
+DEFINE_TEST(external_test)
 {
-	fail_unless(strlen("hello") == 5);
-	fail_unless(strlen("th\0is") == 2);
+	fail_if(NULL);
 }
 END_TEST
 
-DEFINE_TEST(random_all_clear)
+DEFINE_TEST(will_pass)
 {
-	fail_unless(NULL == 0);
-	fail_unless(*"Hello" == 'H');
+	fail_unless(1==1);
 }
 END_TEST
 
-DEFINE_TEST(sizeof_test)
+void external_suite()
 {
-	fail_unless(sizeof(short) == 2);
-	fail_if(sizeof(int) != 4);
-	/*
-	 	die_if/unless will cause early exit. Any tests
-		after it will not be run
-	*/
-	die_unless(sizeof(double) == 8);
-	fail_unless(2 == 3);
-}
-END_TEST
-
-START_SUITE(stuff)
-	START_TCASE(stuff)
-		string_len
-	END_TCASE
-	START_TCASE(other_stuff)
-		random_all_clear,
-		sizeof_test
-	END_TCASE
-END_SUITE
-
-int main(int argc, char *argv[])
-{
-	MTEST_ENVIRONMENT
-	RUN_SUITE(stuff)
+	MTEST_SUITE_ENV(external);
+	RUN_TEST(external_test);
+	RUN_TEST(will_pass);
 	MTEST_PRINT_FINAL;
-	return MTEST_FAIL_COUNT;
 }
+
 ```
 
