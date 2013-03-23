@@ -24,6 +24,9 @@ int ecount = 0;\
 char *suite_name = #name ; \
 printf("running suite \"%s\"\n", suite_name);
 
+#define MTEST_STAT_ENV \
+	int mtest_fail = 0;
+
 #define MTEST_PRINT_FINAL printf("%s: %d%% tests passed\n", suite_name, \
 (int)(100*(float)((tcount - ecount) / (float)(tcount))));
 
@@ -35,6 +38,16 @@ printf("running suite \"%s\"\n", suite_name);
 { int fail = 0; (*tcount)++;
 
 #define END_TEST *ecount += fail ? 1 : 0; ;return fail; }
+
+#define EXTERN_SUITE(n) extern int n##_suite ()
+
+#define DEFINE_SUITE(n) int n##_suite () { MTEST_SUITE_ENV( n )
+#define END_SUITE return ecount; }
+
+#define RUN_SUITE(n) \
+		mtest_fail += n##_suite ()
+
+#define MTEST_FAIL_COUNT mtest_fail
 
 #define fail_unless(x) if( !( x )) \
 { \

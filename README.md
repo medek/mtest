@@ -21,13 +21,21 @@ DEFINE_TEST(will_pass)
 }
 END_TEST
 
-void external_suite()
+DEFINE_SUITE(something)
 {
-	MTEST_SUITE_ENV(external);
 	RUN_TEST(external_test);
 	RUN_TEST(will_pass);
 	MTEST_PRINT_FINAL;
 }
-
+END_SUITE
 ```
 
+Calling the suite with:
+```
+int main(int argc, char *argv[])
+{
+	MTEST_STAT_ENV
+	RUN_SUITE(something);
+	return MTEST_FAIL_COUNT;
+}
+```

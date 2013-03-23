@@ -16,7 +16,7 @@
 #include "mtest.h"
 #include <string.h>
 
-void external_suite();
+EXTERN_SUITE(something);
 
 DEFINE_TEST(string_len)
 {
@@ -41,17 +41,19 @@ DEFINE_TEST(sizeof_test)
 }
 END_TEST
 
-void main_suite()
+DEFINE_SUITE(main)
 {
-	MTEST_SUITE_ENV(main)
 	RUN_TEST(sizeof_test);
 	RUN_TEST(string_len);
 	MTEST_PRINT_FINAL;
 }
+END_SUITE
 
 int main(int argc, char *argv[])
 {
-	main_suite();
-	external_suite();
+	MTEST_STAT_ENV
+	RUN_SUITE(main);
+	RUN_SUITE(something);
+	return MTEST_FAIL_COUNT;
 }
 

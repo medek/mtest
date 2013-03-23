@@ -27,11 +27,11 @@ DEFINE_TEST(will_pass)
 }
 END_TEST
 
-void external_suite()
+DEFINE_SUITE(something)
 {
-	MTEST_SUITE_ENV(external);
 	RUN_TEST(external_test);
 	RUN_TEST(will_pass);
 	MTEST_PRINT_FINAL;
 }
+END_SUITE
 
