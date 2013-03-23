@@ -27,10 +27,11 @@ DEFINE_TEST(will_pass)
 }
 END_TEST
 
-START_SUITE(external_suite)
-	START_TCASE(boo)
-		external_test,
-		will_pass
-	END_TCASE
-END_SUITE
+void external_suite()
+{
+	MTEST_SUITE_ENV(external);
+	RUN_TEST(external_test);
+	RUN_TEST(will_pass);
+	MTEST_PRINT_FINAL;
+}
 
